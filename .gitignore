@@ -1,0 +1,31 @@
+# Mimobot Gitignore
+
+# C++ Build Folders
+mimobot-cpp/build/
+mimobot-cpp/bin/
+mimobot-cpp/obj/
+mimobot-cpp/compile_commands.json
+mimobot-cpp/compile_flags.txt
+
+# Windows Build Folders
+mimobot-windows/bin/
+mimobot-windows/obj/
+mimobot-windows/.vs/
+*.pdb
+*.user
+
+# Android Build Folders
+mimobot-android/.gradle/
+mimobot-android/build/
+mimobot-android/local.properties
+mimobot-android/.idea/
+
+# General
+.vscode/
+.gemini/
+__pycache__/
+*.log
+desktop.ini
+credentials.json
+token.json
+memory.json

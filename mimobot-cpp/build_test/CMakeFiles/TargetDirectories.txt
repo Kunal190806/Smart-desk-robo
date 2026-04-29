@@ -1,0 +1,3 @@
+C:/Kunal/Python/dasai mochi/mimobot-cpp/build_test/CMakeFiles/TestObj.dir
+C:/Kunal/Python/dasai mochi/mimobot-cpp/build_test/CMakeFiles/ALL_BUILD.dir
+C:/Kunal/Python/dasai mochi/mimobot-cpp/build_test/CMakeFiles/ZERO_CHECK.dir

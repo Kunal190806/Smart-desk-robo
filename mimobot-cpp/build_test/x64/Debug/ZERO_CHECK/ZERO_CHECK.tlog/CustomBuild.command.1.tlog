@@ -1,0 +1,10 @@
+^C:\KUNAL\PYTHON\DASAI MOCHI\MIMOBOT-CPP\BUILD_TEST\CMAKEFILES\DDE6C83A82A5AFC8EE686B0F70DC5E61\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Kunal/Python/dasai mochi/mimobot-cpp" "-BC:/Kunal/Python/dasai mochi/mimobot-cpp/build_test" --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file "C:/Kunal/Python/dasai mochi/mimobot-cpp/build_test/MimobotTest.slnx"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
