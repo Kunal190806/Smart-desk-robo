@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.kunal.mimobot.ProtocolTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-04-29T18:43:07.431Z" hostname="KUNALHP14S" time="0.003">
+  <properties/>
+  <testcase name="testMediaJson" classname="com.kunal.mimobot.ProtocolTest" time="0.001"/>
+  <testcase name="testNotificationJson" classname="com.kunal.mimobot.ProtocolTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

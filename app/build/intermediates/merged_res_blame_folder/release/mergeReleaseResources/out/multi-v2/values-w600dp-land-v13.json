@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.kunal.mimobot.app-mergeReleaseResources-73:/values-w600dp-land-v13/values-w600dp-land-v13.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Kunal Mule\\.gradle\\caches\\9.3.1\\transforms\\818bc129b6216a3a93f430928125739f\\workspace\\transformed\\material-1.12.0\\res\\values-w600dp-land-v13\\values-w600dp-land-v13.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "54",
+                        "endOffsets": "105"
+                    }
+                }
+            ]
+        }
+    ]
+}
