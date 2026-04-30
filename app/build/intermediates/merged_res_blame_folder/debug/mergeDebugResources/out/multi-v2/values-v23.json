@@ -1,10 +1,20 @@
 {
     "logs": [
         {
-            "outputFile": "com.kunal.mimobot.app-mergeDebugResources-77:/values-v23/values-v23.xml",
+            "outputFile": "com.kunal.mimobot.app-mergeDebugResources-82:/values-v23/values-v23.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Kunal Mule\\.gradle\\caches\\9.3.1\\transforms\\c1aacfec80e7bc128f2235d06fdc2d4f\\workspace\\transformed\\cardview-1.0.0\\res\\values-v23\\values-v23.xml",
+                    "source": "C:\\Users\\Kunal Mule\\.gradle\\caches\\9.3.1\\transforms\\5b60e55dfda066743872fce8c153f1a7\\workspace\\transformed\\work-runtime-2.10.0\\res\\values-v23\\values-v23.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,121",
+                        "endColumns": "65,62",
+                        "endOffsets": "116,179"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Kunal Mule\\.gradle\\caches\\9.3.1\\transforms\\94a5487752fe1eb506d864b5266d8d1f\\workspace\\transformed\\cardview-1.0.0\\res\\values-v23\\values-v23.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -23,7 +33,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Kunal Mule\\.gradle\\caches\\9.3.1\\transforms\\818bc129b6216a3a93f430928125739f\\workspace\\transformed\\material-1.12.0\\res\\values-v23\\values-v23.xml",
+                    "source": "C:\\Users\\Kunal Mule\\.gradle\\caches\\9.3.1\\transforms\\9c3af6db0d4b532db6321b72ac407495\\workspace\\transformed\\material-1.12.0\\res\\values-v23\\values-v23.xml",
                     "from": {
                         "startLines": "2,5,9,13,16,19,22,25,28,32",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4",
@@ -42,7 +52,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Kunal Mule\\.gradle\\caches\\9.3.1\\transforms\\30f6b4314fd53e5051bb34fabd7f63c0\\workspace\\transformed\\appcompat-1.6.1\\res\\values-v23\\values-v23.xml",
+                    "source": "C:\\Users\\Kunal Mule\\.gradle\\caches\\9.3.1\\transforms\\8ae1a0a585de1c71694ff440dd393f2f\\workspace\\transformed\\appcompat-1.6.1\\res\\values-v23\\values-v23.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,20,34,35,36,39,43,44,45,46",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -58,16 +68,6 @@
                         "endLines": "4,5,6,7,21,35,36,37,40,44,45,46,47,51",
                         "endColumns": "134,134,74,86,12,12,118,126,12,12,114,106,112,12",
                         "endOffsets": "314,449,524,611,1349,2099,2218,2345,2567,2791,2906,3013,3126,3356"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Kunal Mule\\.gradle\\caches\\9.3.1\\transforms\\368595ae053281222ec3824afeba1261\\workspace\\transformed\\work-runtime-2.10.0\\res\\values-v23\\values-v23.xml",
-                    "from": {
-                        "startLines": "2,3",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,121",
-                        "endColumns": "65,62",
-                        "endOffsets": "116,179"
                     }
                 }
             ]

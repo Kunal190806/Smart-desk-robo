@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.kunal.mimobot.app-mergeDebugResources-77:/values-v30/values-v30.xml",
+            "outputFile": "com.kunal.mimobot.app-mergeDebugResources-82:/values-v30/values-v30.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Kunal Mule\\.gradle\\caches\\9.3.1\\transforms\\b83707802999da5d5a236773be7ab829\\workspace\\transformed\\jetified-material3-release\\res\\values-v30\\values-v30.xml",
+                    "source": "C:\\Users\\Kunal Mule\\.gradle\\caches\\9.3.1\\transforms\\22f92bc8c4a32bca2d101bf91d434f7c\\workspace\\transformed\\jetified-material3-release\\res\\values-v30\\values-v30.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

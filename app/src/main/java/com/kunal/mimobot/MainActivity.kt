@@ -148,6 +148,29 @@ fun DashboardScreen() {
             colors = CardDefaults.cardColors(containerColor = Color(0xFF1A1A1A))
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
+                Text("Pairing", color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
+                Spacer(modifier = Modifier.height(12.dp))
+                Button(
+                    onClick = { 
+                        context.startActivity(Intent(context, com.kunal.mimobot.ui.PairingActivity::class.java))
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF00A3FF))
+                ) {
+                    Text("Pair via QR Code")
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Calendar Sync Section
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(12.dp),
+            colors = CardDefaults.cardColors(containerColor = Color(0xFF1A1A1A))
+        ) {
+            Column(modifier = Modifier.padding(16.dp)) {
                 Text("Calendar Sync Status", color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
                 Text("Last Synced: $lastSyncTime", color = Color.Gray, fontSize = 14.sp)
                 Spacer(modifier = Modifier.height(12.dp))

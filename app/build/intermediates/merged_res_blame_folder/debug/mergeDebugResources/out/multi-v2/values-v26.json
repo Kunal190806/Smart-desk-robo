@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.kunal.mimobot.app-mergeDebugResources-77:/values-v26/values-v26.xml",
+            "outputFile": "com.kunal.mimobot.app-mergeDebugResources-82:/values-v26/values-v26.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Kunal Mule\\.gradle\\caches\\9.3.1\\transforms\\30f6b4314fd53e5051bb34fabd7f63c0\\workspace\\transformed\\appcompat-1.6.1\\res\\values-v26\\values-v26.xml",
+                    "source": "C:\\Users\\Kunal Mule\\.gradle\\caches\\9.3.1\\transforms\\8ae1a0a585de1c71694ff440dd393f2f\\workspace\\transformed\\appcompat-1.6.1\\res\\values-v26\\values-v26.xml",
                     "from": {
                         "startLines": "2,3,4,8,12,16",
                         "startColumns": "4,4,4,4,4,4",
