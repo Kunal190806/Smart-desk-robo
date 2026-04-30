@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.6.11723.189 insiders
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MimobotControlCenter", "MimobotControlCenter.csproj", "{49C65FB6-F5B6-1A2F-8930-55A20F5BE4DB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{49C65FB6-F5B6-1A2F-8930-55A20F5BE4DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49C65FB6-F5B6-1A2F-8930-55A20F5BE4DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49C65FB6-F5B6-1A2F-8930-55A20F5BE4DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49C65FB6-F5B6-1A2F-8930-55A20F5BE4DB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {915CC3CC-242D-4773-87CD-A99AFD6BA1B9}
+	EndGlobalSection
+EndGlobal

@@ -20,6 +20,16 @@ static lv_obj_t * disk_label;
 static lv_obj_t * notif_list   = NULL;  // scrollable container
 static int        notif_count  = 0;
 
+/* Moods */
+typedef enum {
+    MOCHI_HAPPY,
+    MOCHI_SLEEPING,
+    MOCHI_SURPRISED
+} mochi_mood_t;
+
+static mochi_mood_t current_mood = MOCHI_HAPPY;
+static uint32_t last_activity_time = 0;
+
 /* Dynamic Tile Globals */
 static lv_obj_t * dynamic_container;
 static lv_obj_t * music_layer;
@@ -27,17 +37,80 @@ static lv_obj_t * discord_layer;
 static lv_obj_t * song_label;
 static lv_obj_t * artist_label;
 
-/* Animation Timer Callback (Blinking eyes) */
-static void blink_timer_cb(lv_timer_t * timer) {
-    static bool closed = false;
-    if(!closed) {
+/* Visualizer Globals */
+static lv_obj_t * viz_bars[10];
+static int viz_values[10] = {0};
+
+/* Pomodoro Globals */
+static lv_obj_t * pomo_overlay = NULL;
+static lv_obj_t * pomo_label = NULL;
+static int pomo_seconds = 0;
+
+/* Animation Timer Callback (Blinking and Breathing) */
+static void animation_timer_cb(lv_timer_t * timer) {
+    static bool blinking = false;
+    static int breath_val = 0;
+    static bool breath_up = true;
+
+    // Check for inactivity (Sleep after 5 mins)
+    if (lv_tick_get() - last_activity_time > 300000 && current_mood != MOCHI_SLEEPING) {
+        current_mood = MOCHI_SLEEPING;
         lv_obj_set_height(eye_left, 5);
         lv_obj_set_height(eye_right, 5);
-        closed = true;
+    }
+
+    if (current_mood == MOCHI_SLEEPING) {
+        // Slow "sleeping" breath
+        if (breath_up) breath_val += 1; else breath_val -= 1;
+        if (breath_val > 10) breath_up = false;
+        if (breath_val < 0) breath_up = true;
+        lv_obj_set_y(mouth, 60 + (breath_val / 2));
+        return; // No blinking while asleep
+    }
+
+    // Normal Mood Logic
+    if (lv_tick_get() % 3000 < 100) { // Blink every 3s
+        lv_obj_set_height(eye_left, 5);
+        lv_obj_set_height(eye_right, 5);
     } else {
         lv_obj_set_height(eye_left, 70);
         lv_obj_set_height(eye_right, 70);
-        closed = false;
+    }
+
+    // Breathing mouth
+    if (breath_up) breath_val += 2; else breath_val -= 2;
+    if (breath_val > 20) breath_up = false;
+    if (breath_val < 0) breath_up = true;
+    lv_obj_set_width(mouth, 60 + breath_val);
+
+    // Update Visualizer Bars (smooth decay)
+    for(int i = 0; i < 10; i++) {
+        if(viz_values[i] > 2) viz_values[i] -= 2; else viz_values[i] = 0;
+        lv_obj_set_height(viz_bars[i], 5 + viz_values[i]);
+    }
+
+    // Update Pomodoro
+    if(pomo_seconds > 0) {
+        static uint32_t last_pomo_tick = 0;
+        if(lv_tick_get() - last_pomo_tick > 1000) {
+            pomo_seconds--;
+            last_pomo_tick = lv_tick_get();
+            if(pomo_label) lv_label_set_text_fmt(pomo_label, "%02d:%02d", pomo_seconds/60, pomo_seconds%60);
+            if(pomo_seconds == 0) {
+                lv_obj_add_flag(pomo_overlay, LV_OBJ_FLAG_HIDDEN);
+                ui_show_notif("Pomodoro", "Time's up! Take a break.");
+            }
+        }
+    }
+}
+
+static void tv_event_cb(lv_event_t * e) {
+    last_activity_time = lv_tick_get();
+    if (current_mood == MOCHI_SLEEPING) {
+        current_mood = MOCHI_HAPPY;
+        // Visual "Wake up" feedback
+        lv_obj_set_height(eye_left, 80);
+        lv_obj_set_height(eye_right, 80);
     }
 }
 
@@ -45,6 +118,8 @@ void ui_init() {
     /* Create the core OS TileView */
     tv = lv_tileview_create(lv_scr_act());
     lv_obj_set_style_bg_color(tv, lv_color_hex(0x0A0A0A), 0);
+    lv_obj_add_event_cb(tv, tv_event_cb, LV_EVENT_ALL, NULL);
+    last_activity_time = lv_tick_get();
 
     /* ==========================================
      * 1. CENTER TILE (2, 1): Dasai Mochi Face 
@@ -74,7 +149,29 @@ void ui_init() {
     lv_obj_set_style_bg_color(mouth, lv_color_white(), 0);
     lv_obj_align(mouth, LV_ALIGN_CENTER, 0, 60);
 
-    lv_timer_create(blink_timer_cb, 3000, NULL);
+    // Visualizer Bars
+    for(int i = 0; i < 10; i++) {
+        viz_bars[i] = lv_obj_create(tile_face);
+        lv_obj_set_size(viz_bars[i], 12, 5);
+        lv_obj_set_style_bg_color(viz_bars[i], lv_color_hex(0x00A3FF), 0);
+        lv_obj_set_style_border_width(viz_bars[i], 0, 0);
+        lv_obj_set_style_radius(viz_bars[i], 5, 0);
+        lv_obj_align(viz_bars[i], LV_ALIGN_BOTTOM_MID, -75 + (i * 17), -10);
+    }
+
+    // Pomodoro Overlay
+    pomo_overlay = lv_obj_create(tile_face);
+    lv_obj_set_size(pomo_overlay, 100, 40);
+    lv_obj_align(pomo_overlay, LV_ALIGN_TOP_RIGHT, -10, 10);
+    lv_obj_set_style_bg_color(pomo_overlay, lv_color_hex(0xFF4B4B), 0);
+    lv_obj_set_style_border_width(pomo_overlay, 0, 0);
+    lv_obj_set_style_radius(pomo_overlay, 10, 0);
+    pomo_label = lv_label_create(pomo_overlay);
+    lv_obj_center(pomo_label);
+    lv_label_set_text(pomo_label, "25:00");
+    lv_obj_add_flag(pomo_overlay, LV_OBJ_FLAG_HIDDEN);
+
+    lv_timer_create(animation_timer_cb, 50, NULL); // Fast 20fps for smooth breath
 
     /* ==========================================
      * 2. BOTTOM TILE (2, 2): Hardware Dashboard 
@@ -286,6 +383,19 @@ void ui_set_dynamic_mode(bool is_music, bool is_discord) {
     }
 }
 
+void ui_update_viz(int * values) {
+    std::lock_guard<std::mutex> lock(lvgl_mutex);
+    for(int i = 0; i < 10; i++) {
+        if(values[i] > viz_values[i]) viz_values[i] = values[i];
+    }
+}
+
+void ui_start_pomo(int minutes) {
+    std::lock_guard<std::mutex> lock(lvgl_mutex);
+    pomo_seconds = minutes * 60;
+    if(pomo_overlay) lv_obj_clear_flag(pomo_overlay, LV_OBJ_FLAG_HIDDEN);
+}
+
 void ui_update_song(const char * title, const char * artist) {
     std::lock_guard<std::mutex> lock(lvgl_mutex);
     if(song_label) lv_label_set_text(song_label, title);
@@ -342,6 +452,47 @@ void ui_show_notif(const char * app, const char * msg) {
     lv_obj_scroll_to_y(notif_list, LV_COORD_MAX, LV_ANIM_ON);
 }
 
-void ui_update_icon(int slot, const char * base64_png) {
-    // Scaffold
+void ui_show_reminder(const char * title, const char * time) {
+    std::lock_guard<std::mutex> lock(lvgl_mutex);
+    if(!notif_list) return;
+
+    if(notif_count == 0) lv_obj_clean(notif_list);
+
+    if(notif_count >= MAX_NOTIFS) {
+        lv_obj_t * first = lv_obj_get_child(notif_list, 0);
+        if(first) lv_obj_del(first);
+        notif_count--;
+    }
+
+    lv_obj_t * card = lv_obj_create(notif_list);
+    lv_obj_set_width(card, LV_PCT(100));
+    lv_obj_set_height(card, LV_SIZE_CONTENT);
+    lv_obj_set_style_bg_color(card, lv_color_hex(0x1A1A1A), 0);
+    lv_obj_set_style_border_width(card, 0, 0);
+    lv_obj_set_style_radius(card, 12, 0);
+    lv_obj_set_style_pad_all(card, 12, 0);
+    lv_obj_set_flex_flow(card, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_style_pad_gap(card, 6, 0);
+    
+    // Green accent for calendar
+    lv_obj_set_style_border_color(card, lv_color_hex(0x2ECC71), 0);
+    lv_obj_set_style_border_width(card, 3, 0);
+    lv_obj_set_style_border_side(card, LV_BORDER_SIDE_LEFT, 0);
+
+    lv_obj_t * lbl_hdr = lv_label_create(card);
+    lv_label_set_text(lbl_hdr, "Calendar Event");
+    lv_obj_set_style_text_color(lbl_hdr, lv_color_hex(0x2ECC71), 0);
+
+    lv_obj_t * lbl_title = lv_label_create(card);
+    lv_label_set_text_fmt(lbl_title, "%s", title);
+    lv_obj_set_style_text_color(lbl_title, lv_color_white(), 0);
+    lv_label_set_long_mode(lbl_title, LV_LABEL_LONG_WRAP);
+    lv_obj_set_width(lbl_title, LV_PCT(100));
+
+    lv_obj_t * lbl_time = lv_label_create(card);
+    lv_label_set_text_fmt(lbl_time, "Time: %s", time);
+    lv_obj_set_style_text_color(lbl_time, lv_color_hex(0x888888), 0);
+
+    notif_count++;
+    lv_obj_scroll_to_y(notif_list, LV_COORD_MAX, LV_ANIM_ON);
 }

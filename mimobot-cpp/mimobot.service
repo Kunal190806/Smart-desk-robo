@@ -1,0 +1,14 @@
+[Unit]
+Description=Mimobot Pro AI Desk Companion
+After=network.target
+
+[Service]
+ExecStart=/home/pi/mimobot-cpp/build/mimobot
+WorkingDirectory=/home/pi/mimobot-cpp
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target

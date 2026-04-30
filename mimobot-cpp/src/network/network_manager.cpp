@@ -69,6 +69,58 @@ void handle_incoming_message(const std::string& msg) {
         // Very basic parsing for demo:
         sscanf(msg.c_str(), "%*[^c]cpu\":%d,\"gpu\":%d,\"ram\":\"%15[^\"]\",\"disk\":%d", &cpu, &gpu, ram, &disk);
         ui_update_telemetry(cpu, gpu, ram, disk);
+    } else if (msg.find("\"type\":\"REMINDER\"") != std::string::npos) {
+        // Parse: {"type":"REMINDER", "events":[{"title":"Meeting","time":"14:30"}, ...]}
+        size_t eventsPos = msg.find("\"events\":[");
+        if (eventsPos != std::string::npos) {
+            size_t current = eventsPos + 10;
+            while (true) {
+                size_t objStart = msg.find("{", current);
+                size_t objEnd = msg.find("}", current);
+                if (objStart == std::string::npos || objEnd == std::string::npos || objStart > objEnd) break;
+
+                std::string eventObj = msg.substr(objStart, objEnd - objStart + 1);
+                
+                char title[128] = {0};
+                char time[64] = {0};
+
+                // Extract title
+                size_t tPos = eventObj.find("\"title\":\"");
+                if (tPos != std::string::npos) {
+                    tPos += 9;
+                    size_t tEnd = eventObj.find("\"", tPos);
+                    if (tEnd != std::string::npos)
+                        strncpy(title, eventObj.c_str() + tPos, std::min((int)(tEnd - tPos), 127));
+                }
+
+                // Extract time
+                size_t tmPos = eventObj.find("\"time\":\"");
+                if (tmPos != std::string::npos) {
+                    tmPos += 8;
+                    size_t tmEnd = eventObj.find("\"", tmPos);
+                    if (tmEnd != std::string::npos)
+                        strncpy(time, eventObj.c_str() + tmPos, std::min((int)(tmEnd - tmPos), 63));
+                }
+
+                if (strlen(title) > 0) ui_show_reminder(title, time);
+                
+                current = objEnd + 1;
+                if (msg[current] == ']') break; 
+            }
+        }
+    } else if (msg.find("\"type\":\"AUDIO_VIZ\"") != std::string::npos) {
+        int vals[10] = {0};
+        size_t vPos = msg.find("\"v\":[");
+        if(vPos != std::string::npos) {
+            sscanf(msg.c_str() + vPos + 5, "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d", 
+                &vals[0], &vals[1], &vals[2], &vals[3], &vals[4], 
+                &vals[5], &vals[6], &vals[7], &vals[8], &vals[9]);
+            ui_update_viz(vals);
+        }
+    } else if (msg.find("\"type\":\"POMO_START\"") != std::string::npos) {
+        int minutes = 25;
+        sscanf(msg.c_str(), "%*[^m]min\":%d", &minutes);
+        ui_start_pomo(minutes);
     } else if (msg.find("\"type\":\"MEDIA_ACTIVE\"") != std::string::npos) {
         ui_set_dynamic_mode(true, false);
     } else if (msg.find("\"type\":\"DISCORD_ACTIVE\"") != std::string::npos) {
