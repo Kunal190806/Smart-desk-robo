@@ -82,5 +82,3 @@ Mimobot uses a lightweight JSON protocol over Port 8000.
 - **Languages:** C++, C#, Kotlin
 
 ---
-
-*Developed with ❤️ by Kunal Mule and Antigravity AI.*
