@@ -31,6 +31,7 @@
         android:label="Mimobot"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:testOnly="true"
         android:theme="@style/Theme.DasaiMochiConnect" >
         <activity
             android:name="com.kunal.mimobot.MainActivity"
